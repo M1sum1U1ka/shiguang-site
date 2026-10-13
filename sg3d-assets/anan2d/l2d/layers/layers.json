@@ -1,0 +1,155 @@
+{
+ "design": {
+  "w": 1459,
+  "h": 2642
+ },
+ "zorder": [
+  "skirt",
+  "armL",
+  "armR",
+  "torso",
+  "faceBase",
+  "mouth",
+  "eyeL",
+  "pupilL",
+  "eyeR",
+  "pupilR",
+  "browL",
+  "browR",
+  "hairSideL",
+  "hairSideR",
+  "hairFront",
+  "hairpin"
+ ],
+ "layers": {
+  "skirt": {
+   "x": 383,
+   "y": 486,
+   "w": 853,
+   "h": 2156
+  },
+  "armL": {
+   "x": 7,
+   "y": 578,
+   "w": 572,
+   "h": 745
+  },
+  "armR": {
+   "x": 1042,
+   "y": 567,
+   "w": 417,
+   "h": 616
+  },
+  "torso": {
+   "x": 498,
+   "y": 475,
+   "w": 627,
+   "h": 918
+  },
+  "faceBase": {
+   "x": 657,
+   "y": 162,
+   "w": 288,
+   "h": 378
+  },
+  "mouth": {
+   "x": 767,
+   "y": 324,
+   "w": 94,
+   "h": 42
+  },
+  "eyeL": {
+   "x": 690,
+   "y": 214,
+   "w": 79,
+   "h": 55
+  },
+  "pupilL": {
+   "x": 718,
+   "y": 222,
+   "w": 40,
+   "h": 39
+  },
+  "eyeR": {
+   "x": 849,
+   "y": 216,
+   "w": 76,
+   "h": 52
+  },
+  "pupilR": {
+   "x": 851,
+   "y": 210,
+   "w": 39,
+   "h": 39
+  },
+  "browL": {
+   "x": 678,
+   "y": 174,
+   "w": 115,
+   "h": 68
+  },
+  "browR": {
+   "x": 821,
+   "y": 149,
+   "w": 114,
+   "h": 91
+  },
+  "hairSideL": {
+   "x": 377,
+   "y": 175,
+   "w": 427,
+   "h": 975
+  },
+  "hairSideR": {
+   "x": 798,
+   "y": 175,
+   "w": 447,
+   "h": 977
+  },
+  "hairFront": {
+   "x": 598,
+   "y": 0,
+   "w": 430,
+   "h": 192
+  },
+  "hairpin": {
+   "x": 924,
+   "y": 97,
+   "w": 103,
+   "h": 138
+  }
+ },
+ "report": {
+  "faceBase": {
+   "src": "mediapipe-oval+neck",
+   "area_px": 90685
+  },
+  "mouth": {
+   "src": "mediapipe-lips",
+   "area_px": 1842
+  },
+  "pupilL": {
+   "src": "mediapipe-iris",
+   "area_px": 577
+  },
+  "pupilR": {
+   "src": "mediapipe-iris",
+   "area_px": 588
+  },
+  "hairAllExtra": {
+   "area_px": 170145
+  },
+  "hairFront": {
+   "src": "sam(hairAll)+geom-split+faceblock",
+   "area_px": 63086
+  },
+  "hairSideL": {
+   "src": "sam(hairAll)+geom-split+faceblock",
+   "area_px": 69200
+  },
+  "hairSideR": {
+   "src": "sam(hairAll)+geom-split+faceblock",
+   "area_px": 68937
+  }
+ }
+}

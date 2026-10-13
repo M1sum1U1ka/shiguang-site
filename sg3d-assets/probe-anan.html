@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html><head><meta charset="utf-8"><style>body{margin:0;background:#223}#c{width:100vw;height:100vh;display:block}#tag{position:fixed;top:10px;left:10px;color:#fff;font:20px monospace}</style></head>
+<body><div id="tag">boot</div><canvas id="c"></canvas>
+<script type="importmap">{"imports":{"three":"https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js","three/addons/":"https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/"}}</script>
+<script type="module">
+import * as THREE from 'three';
+import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
+const q = new URLSearchParams(location.search);
+const angle = Number(q.get('a') || 0);
+const model = '/sg3d-assets/models/' + (q.get('m') || 'anan-v2.glb');
+const renderer = new THREE.WebGLRenderer({ canvas: document.getElementById('c'), antialias: true });
+renderer.setSize(innerWidth, innerHeight);
+const scene = new THREE.Scene();
+scene.background = new THREE.Color(0x28324a);
+scene.add(new THREE.HemisphereLight(0xffffff, 0x445566, 1.4));
+const key = new THREE.DirectionalLight(0xfff2dd, 2.2); key.position.set(2, 3, 4); scene.add(key);
+const fill = new THREE.DirectionalLight(0xcfe4ff, 1.0); fill.position.set(-3, 1, 2); scene.add(fill);
+const back = new THREE.DirectionalLight(0xffd9ec, 0.8); back.position.set(0, 2, -4); scene.add(back);
+/* +Z 方向放一根红色标记柱：镜头在 +Z 看模型，红柱应在画面右后方的 +Z 深处 */
+const marker = new THREE.Mesh(new THREE.CylinderGeometry(0.05, 0.05, 1.4, 8), new THREE.MeshBasicMaterial({ color: 0xff3344 }));
+marker.position.set(1.2, 0.7, 1.6); scene.add(marker);
+new GLTFLoader().load(model, (g) => {
+  const m = g.scene;
+  const box = new THREE.Box3().setFromObject(m);
+  const size = box.getSize(new THREE.Vector3());
+  const s = 1.4 / Math.max(size.y, 0.001);
+  m.scale.setScalar(s);
+  box.setFromObject(m);
+  const c = box.getCenter(new THREE.Vector3());
+  m.position.sub(c); m.position.y += 0.7;
+  scene.add(m);
+  const cam = new THREE.PerspectiveCamera(35, innerWidth / innerHeight, 0.05, 50);
+  const r = 2.6;
+  cam.position.set(Math.sin(angle) * r, 0.9, Math.cos(angle) * r);
+  cam.lookAt(0, 0.7, 0);
+  renderer.render(scene, cam);
+  document.getElementById('tag').textContent = 'angle=' + angle + ' m=' + model + ' ready';
+  window.__DONE = true;
+});
+</script></body></html>

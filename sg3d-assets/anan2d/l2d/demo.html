@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<title>安安 L2D v2 · 独立演示台</title>
+<style>
+  body{margin:0;background:linear-gradient(180deg,#2b2118,#181209);font-family:system-ui,"Microsoft YaHei",sans-serif;color:#e8ddbe;min-height:100vh;display:flex;flex-direction:column;align-items:center}
+  h1{font-size:18px;font-weight:600;margin:18px 0 4px;letter-spacing:.1em}
+  .sub{font-size:12px;opacity:.65;margin-bottom:10px}
+  #anan-l2d-stage{position:relative;width:380px;height:470px;border-radius:18px;
+    background:radial-gradient(ellipse 75% 62% at 50% 40%, rgba(255,240,210,.10), rgba(255,240,210,0) 72%);
+    box-shadow:inset 0 0 0 1px rgba(240,213,138,.15)}
+  .row{display:flex;gap:8px;flex-wrap:wrap;justify-content:center;max-width:760px;margin:10px 14px}
+  button{background:#241d0f;border:1px solid rgba(240,213,138,.3);color:#e8ddbe;border-radius:9px;
+    padding:6px 13px;font-size:12.5px;cursor:pointer;transition:.2s}
+  button:hover{background:#3a2d16;border-color:rgba(240,213,138,.55)}
+  button.on{background:#5a431d;border-color:#f0d58a}
+  #fps{position:fixed;top:12px;right:14px;font:700 13px/1.4 Consolas,monospace;color:#9fe89f;text-align:right}
+  #drv{position:fixed;top:12px;left:14px;font-size:11.5px;opacity:.7}
+  .grp{font-size:11px;opacity:.55;width:100%;text-align:center;margin-top:6px}
+</style>
+</head>
+<body>
+<h1>安安 · Live2D 级运行时 v2</h1>
+<div class="sub">SAM 分层 × PixiJS 网格 × rebound 物理 × MediaPipe 面捕</div>
+<div id="anan-l2d-stage"></div>
+<div class="row" id="row-motion"><div class="grp">动作</div></div>
+<div class="row" id="row-expr"><div class="grp">表情（300ms 渐变）</div></div>
+<div class="row">
+  <div class="grp">驱动</div>
+  <button id="btn-cam">开启摄像头面捕</button>
+  <button id="btn-mic">开启麦克风口型</button>
+  <button id="btn-yawn">口型测试(自动开合)</button>
+</div>
+<div id="fps"></div>
+<div id="drv"></div>
+<script>window.ANAN_L2D_BASE = './';</script>
+<script src="./vendor/pixi.min.js"></script>
+<script src="./vendor/rebound.js"></script>
+<script src="./anan-l2d-v2.js"></script>
+<script>
+(function () {
+  function ready() { return window.AnAnL2D2 && AnAnL2D2.play; }
+  var iv = setInterval(function () {
+    if (!ready()) return;
+    clearInterval(iv);
+    var rm = document.getElementById('row-motion');
+    AnAnL2D2.motions.forEach(function (m) {
+      var b = document.createElement('button'); b.textContent = m;
+      b.onclick = function () { AnAnL2D2.play(m); };
+      rm.appendChild(b);
+    });
+    var re = document.getElementById('row-expr');
+    AnAnL2D2.exprs.forEach(function (m) {
+      var b = document.createElement('button'); b.textContent = m;
+      b.onclick = function () {
+        re.querySelectorAll('button').forEach(function (x) { x.classList.remove('on'); });
+        b.classList.add('on'); AnAnL2D2.setExpr(m);
+      };
+      re.appendChild(b);
+    });
+    document.getElementById('btn-cam').onclick = function () { AnAnL2D2.enableCamera(); };
+    document.getElementById('btn-mic').onclick = function () { AnAnL2D2.enableMic(); };
+    var yawn = null;
+    document.getElementById('btn-yawn').onclick = function () {
+      if (yawn) { yawn.stop(); yawn = null; AnAnL2D2.setMouth(0); return; }
+      // 真实 WebAudio 管线：振荡器 → AnalyserNode → 口型（验收「音频口型同步」用）
+      var ac = new (window.AudioContext || window.webkitAudioContext)();
+      var osc = ac.createOscillator(); osc.frequency.value = 160;
+      var lfo = ac.createOscillator(); lfo.frequency.value = 2.8;
+      var lfoG = ac.createGain(); lfoG.gain.value = 0.5;
+      var amp = ac.createGain(); amp.gain.value = 0.5;
+      var an = ac.createAnalyser(); an.fftSize = 512;
+      lfo.connect(lfoG); lfoG.connect(amp.gain);
+      osc.connect(amp); amp.connect(an); amp.connect(ac.createGain());
+      osc.start(); lfo.start();
+      AnAnL2D2.attachAnalyser(an);
+      yawn = { stop: function () { try { osc.stop(); lfo.stop(); ac.close(); } catch (e) {} } };
+    };
+    setInterval(function () {
+      document.getElementById('fps').textContent = AnAnL2D2.fps() + ' FPS';
+      document.getElementById('drv').textContent = '驱动: ' + AnAnL2D2.driver();
+    }, 500);
+  }, 300);
+})();
+</script>
+</body>
+</html>

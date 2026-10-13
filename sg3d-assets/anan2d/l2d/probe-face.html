@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+<head><meta charset="utf-8"><title>face probe</title></head>
+<body>
+<script type="module">
+/* MediaPipe Face Landmarker 探针：对立绘提取 478 点面部关键点，输出到 window.__LANDMARKS */
+const V = '/sg3d-assets/anan2d/l2d/vendor';
+window.__LANDMARKS = null; window.__ERR = null;
+(async () => {
+  try {
+    const vision = await import(V + '/vision_bundle.mjs');
+    const files = await vision.FilesetResolver.forVisionTasks(V);
+    const mk = (conf) => vision.FaceLandmarker.createFromOptions(files, {
+      baseOptions: { modelAssetPath: V + '/face_landmarker.task' },
+      runningMode: 'IMAGE', numFaces: 1,
+      minFaceDetectionConfidence: conf, minFacePresenceConfidence: conf, minTrackingConfidence: conf,
+      outputFaceBlendshapes: true, outputFacialTransformationMatrixes: true
+    });
+    const img = new Image();
+    img.src = '/sg3d-assets/anan2d/anan-full.png';
+    await img.decode();
+    // 头部裁剪放大（动漫脸偏小，放大提升检出率）
+    const cw = Math.round(img.naturalWidth * 0.66), ch = Math.round(img.naturalHeight * 0.25);
+    const cx = Math.round((img.naturalWidth - cw) / 2), cy = 0;
+    const cv = document.createElement('canvas');
+    cv.width = cw * 2; cv.height = ch * 2;
+    cv.getContext('2d').drawImage(img, cx, cy, cw, ch, 0, 0, cv.width, cv.height);
+    let res = null, used = null;
+    for (const conf of [0.5, 0.25, 0.08]) {
+      const lm = await mk(conf);
+      res = lm.detect(cv);
+      if (res.faceLandmarks && res.faceLandmarks.length) { used = { conf, crop: [cx, cy, cw, ch], scale: 2 }; break; }
+      res = lm.detect(img);   // 整图兜底
+      if (res.faceLandmarks && res.faceLandmarks.length) { used = { conf, crop: [0, 0, img.naturalWidth, img.naturalHeight], scale: 1 }; break; }
+    }
+    if (res && res.faceLandmarks && res.faceLandmarks.length) {
+      // 关键点坐标映射回原图像素
+      const [ox, oy, ww, hh] = used.crop, s = used.scale;
+      const raw = res.faceLandmarks[0].map(p => ({
+        x: (p.x * (ww * s) / s + ox) / img.naturalWidth,
+        y: (p.y * (hh * s) / s + oy) / img.naturalHeight
+      }));
+      window.__LANDMARKS = {
+        w: img.naturalWidth, h: img.naturalHeight, conf: used.conf,
+        landmarks: raw,
+        blendshapes: res.faceBlendshapes ? res.faceBlendshapes[0].categories.map(c => [c.categoryName, +c.score.toFixed(4)]) : null,
+        matrix: res.facialTransformationMatrixes ? res.facialTransformationMatrixes[0].data : null
+      };
+    } else {
+      window.__ERR = 'no face detected';
+    }
+  } catch (e) { window.__ERR = String(e && e.message || e); }
+  document.title = 'probe-done';
+})();
+</script>
+</body>
+</html>

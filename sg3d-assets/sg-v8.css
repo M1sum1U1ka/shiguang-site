@@ -1,0 +1,29 @@
+/* ═══ SG-V8 · 展示页/模式门背景 + 录制字幕带 ═══ */
+
+/* ── 1. 展示页全屏氛围背景（各场景统一底子，不抢戏） ── */
+#sg-show{ background:
+  radial-gradient(ellipse 60% 45% at 12% 88%, rgba(126,200,242,.12), transparent 62%),
+  radial-gradient(ellipse 55% 42% at 88% 10%, rgba(201,169,106,.14), transparent 62%),
+  radial-gradient(ellipse 50% 40% at 85% 85%, rgba(255,143,179,.10), transparent 62%),
+  linear-gradient(176deg,#FDFBF6 0%,#F7F2E8 55%,#F5F0E6 100%) !important; }
+#sg-show::before{ content:''; position:fixed; inset:0; pointer-events:none; z-index:0;
+  background:url("data:image/svg+xml;utf8,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20width='140'%20height='140'%3E%3Cfilter%20id='n'%3E%3CfeTurbulence%20type='fractalNoise'%20baseFrequency='.85'%20numOctaves='2'/%3E%3CfeColorMatrix%20type='saturate'%20values='0'/%3E%3C/filter%3E%3Crect%20width='140'%20height='140'%20filter='url(%23n)'%20opacity='.035'/%3E%3C/svg%3E"); }
+#sg-show .shw-scene{ position:relative; z-index:1; }
+
+/* ── 2. 模式选择页背景：暖纸渐变 + 柔光斑 ── */
+#sg-splash{ background:
+  radial-gradient(ellipse 55% 42% at 8% 8%, rgba(62,185,110,.12), transparent 60%),
+  radial-gradient(ellipse 50% 40% at 92% 12%, rgba(201,169,106,.16), transparent 60%),
+  radial-gradient(ellipse 55% 45% at 50% 105%, rgba(255,143,179,.12), transparent 62%),
+  linear-gradient(170deg,#F7F2E8 0%,#F3EDE2 50%,#EFE8DB 100%) !important; }
+
+/* ── 3. 录制字幕带：正下方整条，不遮主画面（录制时给页面让底边） ── */
+body.v8-rec{ padding-bottom:124px !important; }
+body.v8-rec #sg-rec-cap{ left:0 !important; right:0 !important; bottom:0 !important; top:auto !important;
+  max-width:none !important; margin:0 !important; border-radius:0 !important;
+  background:rgba(10,13,22,.94) !important; border-top:2px solid rgba(201,169,106,.55) !important;
+  padding:20px 60px !important; text-align:center !important; box-shadow:0 -12px 40px rgba(0,0,0,.35) !important; }
+body.v8-rec #sg-rec-cap .cap-in{ font:500 27px/1.55 'Noto Sans SC','PingFang SC',sans-serif !important;
+  color:#F4EFE3 !important; -webkit-text-fill-color:#F4EFE3 !important; letter-spacing:.02em;
+  display:inline-block; text-shadow:0 1px 3px rgba(0,0,0,.5); }
+body.v8-rec #sg-rec-badge{ top:14px !important; }

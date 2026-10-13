@@ -1,0 +1,41 @@
+/* ═══ SG-V7 · 可读性/粒子减量/艺术字标题/按钮统一 ═══ */
+
+/* ── 1. 安安对话框：任何模式下都必须看清（实色底+无衬线+高对比） ── */
+#sg-bubble{ background:rgba(14,19,34,.97) !important; border:1px solid rgba(201,169,106,.5) !important;
+  box-shadow:0 16px 48px rgba(0,0,0,.5) !important; backdrop-filter:blur(12px); }
+#sg-bubble, #sg-bubble *{ font-family:'Noto Sans SC','PingFang SC','Microsoft YaHei',sans-serif !important;
+  font-style:normal !important; }
+#sg-bubble p, #sg-bubble span, #sg-bubble div{ color:#F4EFE3 !important; -webkit-text-fill-color:#F4EFE3 !important;
+  font-weight:400 !important; line-height:1.7 !important; text-shadow:none !important; }
+#sg-bubble :is(button,a,[class*=chip],[class*=quick],[class*=sgq]){
+  background:#C9A96A !important; color:#14100A !important; -webkit-text-fill-color:#14100A !important;
+  border:none !important; font-weight:600 !important; }
+body.youth-mode #sg-bubble{ background:rgba(255,255,255,.97) !important; border:1.5px solid rgba(255,255,255,.9) !important; }
+body.youth-mode #sg-bubble :is(p,span,div){ color:#3A4A40 !important; -webkit-text-fill-color:#3A4A40 !important; }
+body.youth-mode #sg-bubble :is(button,a,[class*=chip]){ background:#3EB96E !important; color:#fff !important; -webkit-text-fill-color:#fff !important; }
+body.elder-mode #sg-bubble{ background:#FFFDF6 !important; border:2px solid #D9C7A8 !important; }
+body.elder-mode #sg-bubble :is(p,span,div){ color:#3D2B1A !important; -webkit-text-fill-color:#3D2B1A !important; font-size:17px !important; }
+body.elder-mode #sg-bubble :is(button,a,[class*=chip]){ background:#A67C52 !important; color:#fff !important; -webkit-text-fill-color:#fff !important; }
+
+/* ── 2. 标准版粒子减量：不遮画面 ── */
+body:not(.youth-mode):not(.elder-mode):not(.elder-park) #v5-particles.on{ opacity:.38 !important;
+  -webkit-mask-image:linear-gradient(180deg,#000 0%,#000 45%,transparent 88%);
+  mask-image:linear-gradient(180deg,#000 0%,#000 45%,transparent 88%); }
+
+/* ── 3. 艺术字/手写体大标题（弃印刷体） ── */
+body:not(.youth-mode):not(.elder-mode):not(.elder-park) #sg-show .shw-hero .shw-slogan{ font-family:'Zhi Mang Xing','ZCOOL KuaiLe','Noto Serif SC',serif !important; font-weight:400 !important; }
+body:not(.youth-mode):not(.elder-mode):not(.elder-park) .hero .hero-copy h1{
+  font-family:'Zhi Mang Xing','ZCOOL KuaiLe','Noto Serif SC',serif !important; font-weight:400 !important;
+  text-shadow:0 3px 18px rgba(0,0,0,.5) !important; letter-spacing:.04em !important; }
+body:not(.youth-mode):not(.elder-mode):not(.elder-park) #sg-splash .sp-world--normal .spw-title{
+  font-family:'Zhi Mang Xing','Noto Serif SC',serif !important; font-weight:400 !important; }
+
+/* ── 4. 并列按钮统一：模式门 CTA 同宽同高同字级 ── */
+body:not(.youth-mode):not(.elder-mode):not(.elder-park) #sg-splash .spw-go{
+  min-width:186px !important; min-height:52px !important; padding:0 30px !important;
+  display:inline-flex !important; align-items:center !important; justify-content:center !important;
+  gap:8px !important; font-size:16px !important; font-weight:700 !important; border-radius:999px !important; }
+/* 跳过按钮可读性 */
+#sg-splash .sp-skip, #sg-splash .sp-topbtn, #sg-splash [class*=skip]{
+  background:rgba(34,38,46,.9) !important; color:#F4EFE3 !important; }
+#sg-splash .spw-desc{ text-shadow:0 1px 8px rgba(0,0,0,.25); }

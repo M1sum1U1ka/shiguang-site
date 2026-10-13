@@ -1,0 +1,53 @@
+/* ═══ SG-V10 · 亮金调色 + 自发光标题材质 ═══ */
+
+/* ── 1. 标准版：金色整体提亮一档 ── */
+body:not(.youth-mode):not(.elder-mode):not(.elder-park){
+  --accent:#E3C078 !important; --accent-deep:#C9A24B !important; --accent-ink:#F0D494 !important; }
+/* 音符层同步提亮 */
+#sg-note-fx .nf,.sg-nf-layer .nf{ color:rgba(240,212,148,.55) !important; }
+#sg-note-fx .nf:nth-child(even),.sg-nf-layer .nf:nth-child(even){ color:rgba(227,192,120,.6) !important; }
+/* 星座连线提亮 */
+body:not(.youth-mode):not(.elder-mode):not(.elder-park) .hero::before{ opacity:1; }
+
+/* ── 2. 自发光标题材质（暗场金辉 / 浅底柔光） ── */
+/* 标准版 hero 书法标题：象牙白主行冷光 + 金色副行金辉 */
+body:not(.youth-mode):not(.elder-mode):not(.elder-park) .hero .hero-copy h1{
+  text-shadow:0 0 18px rgba(244,239,227,.35),0 0 46px rgba(227,192,120,.22),0 3px 22px rgba(0,0,0,.5) !important; }
+body:not(.youth-mode):not(.elder-mode):not(.elder-park) .hero .hero-copy h1 em{
+  text-shadow:none !important;
+  filter:drop-shadow(0 0 14px rgba(240,212,148,.55)) drop-shadow(0 0 40px rgba(227,192,120,.3)) !important; }
+/* 标准版章节标题：暗场微光 */
+body:not(.youth-mode):not(.elder-mode):not(.elder-park) .section-head h2,
+body:not(.youth-mode):not(.elder-mode):not(.elder-park) .page-head h2{
+  text-shadow:0 0 16px rgba(244,239,227,.28),0 0 40px rgba(227,192,120,.18) !important; }
+/* 统计大数字：金辉 */
+body:not(.youth-mode):not(.elder-mode):not(.elder-park) .stat .num{
+  text-shadow:0 0 14px rgba(240,212,148,.5),0 0 34px rgba(227,192,120,.28) !important; }
+/* 导航品牌名微光 */
+body:not(.youth-mode):not(.elder-mode):not(.elder-park) .nav .brand .name{
+  text-shadow:0 0 12px rgba(240,212,148,.4) !important; }
+/* 卡片悬停：金边点亮 + 外发光增强 */
+body:not(.youth-mode):not(.elder-mode):not(.elder-park) .feat-card:hover,
+body:not(.youth-mode):not(.elder-mode):not(.elder-park) .sp-card:hover,
+body:not(.youth-mode):not(.elder-mode):not(.elder-park) .plan-card:hover,
+body:not(.youth-mode):not(.elder-mode):not(.elder-park) .rel-card:hover,
+body:not(.youth-mode):not(.elder-mode):not(.elder-park) .course-card:hover,
+body:not(.youth-mode):not(.elder-mode):not(.elder-park) .story-card:hover{
+  box-shadow:0 20px 50px rgba(0,0,0,.5),0 0 0 1px rgba(227,192,120,.4),0 0 32px rgba(227,192,120,.22) !important; }
+
+/* ── 3. 首页展示页：渐变字加柔光辉 ── */
+#sg-show .shw-slogan span:last-child{
+  filter:drop-shadow(0 0 16px rgba(232,115,74,.28)) drop-shadow(0 0 44px rgba(255,143,179,.2)); }
+#sg-show .shw-slogan span:first-child{
+  text-shadow:0 0 14px rgba(34,38,46,.14),0 2px 20px rgba(168,121,31,.12); }
+
+/* ── 4. 老年版：书法标题暖阳柔光 ── */
+body.elder-mode .hero .hero-copy h1 em{
+  filter:drop-shadow(0 0 12px rgba(176,125,82,.35)) !important; }
+
+/* ── 5. 青年版：主标题春光微晕 ── */
+.mag-hero .mag-title{
+  filter:drop-shadow(0 0 14px rgba(255,255,255,.75)) drop-shadow(0 0 30px rgba(255,183,210,.4)); }
+/* 模式门标题自发光（深底门更亮） */
+body:not(.youth-mode):not(.elder-mode):not(.elder-park) #sg-splash .sp-world--normal .spw-title{
+  text-shadow:0 0 18px rgba(240,212,148,.5),0 2px 16px rgba(6,14,28,.5) !important; }

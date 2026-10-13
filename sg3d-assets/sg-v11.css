@@ -1,0 +1,45 @@
+/* ═══ SG-V11 · 展示页/模式切换页动态背景实装 ═══ */
+
+/* ── 展示页：三色极光缓慢流动 + 细碎光点漂浮（全部 transform/opacity） ── */
+#sg-show{ overflow:hidden; }
+#sg-show::after{ content:''; position:fixed; inset:-18%; z-index:0; pointer-events:none;
+  background:
+    radial-gradient(ellipse 26% 22% at 20% 24%, rgba(126,200,242,.20), transparent 66%),
+    radial-gradient(ellipse 28% 24% at 80% 20%, rgba(240,212,148,.22), transparent 66%),
+    radial-gradient(ellipse 26% 22% at 78% 80%, rgba(255,143,179,.18), transparent 66%),
+    radial-gradient(ellipse 24% 20% at 18% 82%, rgba(62,185,110,.16), transparent 66%);
+  filter:blur(36px);
+  animation:v11AuraDrift 34s ease-in-out infinite alternate; }
+@keyframes v11AuraDrift{
+  0%{ transform:translate(-2.5%,-1.5%) rotate(0deg) scale(1); }
+  50%{ transform:translate(2%,2%) rotate(3deg) scale(1.05); }
+  100%{ transform:translate(-1.5%,1%) rotate(-2deg) scale(1.03); } }
+/* 漂浮微粒（展示页） */
+#sg-show .shw-scene::before{ content:''; position:absolute; inset:0; z-index:0; pointer-events:none;
+  background-image:
+    radial-gradient(circle 3px at 12% 20%, rgba(201,169,106,.5), transparent 70%),
+    radial-gradient(circle 2.5px at 68% 12%, rgba(126,200,242,.5), transparent 70%),
+    radial-gradient(circle 2px at 88% 40%, rgba(255,143,179,.55), transparent 70%),
+    radial-gradient(circle 3px at 30% 70%, rgba(201,169,106,.45), transparent 70%),
+    radial-gradient(circle 2.5px at 55% 88%, rgba(126,200,242,.5), transparent 70%),
+    radial-gradient(circle 2px at 76% 66%, rgba(62,185,110,.5), transparent 70%);
+  animation:v11MoteFloat 16s ease-in-out infinite alternate; }
+@keyframes v11MoteFloat{ from{ transform:translateY(-14px); } to{ transform:translateY(16px); } }
+#sg-show .shw-scene>*{ position:relative; z-index:1; }
+
+/* ── 模式切换页：暖纸底 + 三色呼吸光晕（对应三扇门） ── */
+#sg-splash::before{ content:''; position:absolute; inset:-14%; z-index:0; pointer-events:none;
+  background:
+    radial-gradient(ellipse 30% 26% at 14% 30%, rgba(62,185,110,.20), transparent 64%),
+    radial-gradient(ellipse 30% 26% at 50% 18%, rgba(96,130,190,.18), transparent 64%),
+    radial-gradient(ellipse 30% 26% at 86% 34%, rgba(201,138,60,.24), transparent 64%);
+  filter:blur(30px);
+  animation:v11SplashBreathe 18s ease-in-out infinite alternate; }
+@keyframes v11SplashBreathe{
+  from{ transform:scale(1) translateY(-1%); opacity:.85; }
+  to{ transform:scale(1.07) translateY(1.5%); opacity:1; } }
+#sg-splash .sp-worlds{ position:relative; z-index:1; }
+
+@media (prefers-reduced-motion:reduce){
+  #sg-show::after, #sg-show .shw-scene::before, #sg-splash::before{ animation:none !important; }
+}
