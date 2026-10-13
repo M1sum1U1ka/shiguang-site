@@ -1213,10 +1213,13 @@ window.SG_ICON_DATA = {"film":"data:image/svg+xml;utf8,%3Csvg%20xmlns%3D%22http%
   var API_HOST='https://inquiry-fuzzy-salaries-ranked.trycloudflare.com';
   var _f=window.fetch.bind(window);
   window.fetch=function(u,o){
-    if(typeof u==='string' && u.indexOf('/api/v1')===0) u=API_HOST+u;
+    var s=(typeof u==='string')?u:(u&&u.url);
+    if(s && s.indexOf('/api/v1')>=0 && s.indexOf('http')!==0){ u=API_HOST+s; }
     /* 超大模型（GitHub 单文件限制）在线时走家庭服务器 */
-    if(typeof u==='string' && u.indexOf('sg3d-assets/models/')>=0 && u.indexOf('http')!==0)
-      u=API_HOST + '/' + u.replace(/^\//,'');
+    else if(s && s.indexOf('sg3d-assets/models/')>=0){
+      var nu=API_HOST + '/sg3d-assets/models/' + s.split('sg3d-assets/models/')[1];
+      u=(typeof u==='string')?nu:new Request(nu,u);
+    }
     return _f(u,o);
   };
 })();
