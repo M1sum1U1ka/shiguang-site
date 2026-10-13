@@ -1210,7 +1210,7 @@ window.SG_ICON_DATA = {"film":"data:image/svg+xml;utf8,%3Csvg%20xmlns%3D%22http%
 /* GitHub Pages 静态部署时：API 指向家庭服务器隧道（在线版后端） */
 (function(){
   if(!/\.github\.io$/.test(location.hostname)) return;
-  var API_HOST='https://met-app-newspaper-government.trycloudflare.com';
+  var API_HOST='https://inquiry-fuzzy-salaries-ranked.trycloudflare.com';
   var _f=window.fetch.bind(window);
   window.fetch=function(u,o){
     if(typeof u==='string' && u.indexOf('/api/v1')===0) u=API_HOST+u;
